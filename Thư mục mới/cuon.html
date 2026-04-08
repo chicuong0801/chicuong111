@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Yến • Vũ trụ trái tim</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+body {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 30% 20%, #0a0f2a, #030617);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: 'Segoe UI', 'Quicksand', 'Pacifico', cursive;
+    position: relative;
+}
+
+/* Nền vũ trụ động - sao nhấp nháy */
+.stars-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(255,255,200,0.8);
+    animation: starTwinkle 3s infinite alternate ease-in-out;
+}
+
+@keyframes starTwinkle {
+    0% { opacity: 0.2; transform: scale(0.8); background: #fff5cc; }
+    100% { opacity: 1; transform: scale(1.3); background: #fffff0; box-shadow: 0 0 12px #ffdd99; }
+}
+
+/* Sao băng */
+.shooting-star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: linear-gradient(135deg, #fff, #ffdd88);
+    border-radius: 50%;
+    box-shadow: 0 0 12px #ffbb77;
+    pointer-events: none;
+    z-index: 2;
+    animation: shoot 2s linear forwards;
+}
+
+@keyframes shoot {
+    0% {
+        transform: translateX(0) translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-250px) translateY(150px);
+        opacity: 0;
+    }
+}
+
+/* Khung chính chứa tim quay */
+.cosmic-center {
+    position: relative;
+    width: 420px;
+    height: 420px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
+/* Hào quang xung quanh chữ */
+.glow-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,80,120,0.15) 0%, rgba(255,160,180,0) 70%);
+    animation: pulseGlow 3s infinite alternate;
+    z-index: 5;
+}
+
+@keyframes pulseGlow {
+    0% { transform: scale(0.95); opacity: 0.4; }
+    100% { transform: scale(1.1); opacity: 0.8; }
+}
+
+/* Chữ Yến trung tâm - nổi bật */
+.center-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 62px;
+    font-weight: bold;
+    color: #ff4d7a;
+    text-shadow: 0 0 18px #ffb3c6, 0 0 35px #ff6699, 2px 2px 10px rgba(0,0,0,0.3);
+    z-index: 30;
+    background: rgba(10, 5, 25, 0.45);
+    backdrop-filter: blur(12px);
+    padding: 12px 32px;
+    border-radius: 100px;
+    white-space: nowrap;
+    letter-spacing: 5px;
+    font-family: 'Segoe UI', 'Pacifico', cursive;
+    border: 1px solid rgba(255, 200, 200, 0.4);
+    box-shadow: 0 0 30px rgba(255, 70, 120, 0.5);
+    animation: textBreathing 2.4s infinite alternate;
+}
+
+@keyframes textBreathing {
+    0% { transform: translate(-50%, -50%) scale(1); text-shadow: 0 0 10px #ff99bb; backdrop-filter: blur(8px);}
+    100% { transform: translate(-50%, -50%) scale(1.03); text-shadow: 0 0 28px #ff3366, 0 0 12px white; backdrop-filter: blur(14px);}
+}
+
+/* Vòng quay trái tim chính */
+.orbit-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    animation: spinUniverse 18s linear infinite;
+}
+
+@keyframes spinUniverse {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Mỗi trái tim trên quỹ đạo */
+.orbit-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    transform-origin: 0px 0px;
+}
+
+/* Trái tim thiết kế đẹp */
+.heart {
+    width: 36px;
+    height: 36px;
+    background: #ff3366;
+    position: absolute;
+    transform: rotate(-45deg);
+    box-shadow: 0 0 20px #ff4d6d, 0 0 35px #ff99bb;
+    transition: all 0.2s ease;
+    top: -18px;
+    left: -18px;
+    cursor: default;
+    animation: heartBeatLight 1.6s infinite ease-in-out;
+}
+
+@keyframes heartBeatLight {
+    0% { box-shadow: 0 0 10px #ff4d6d; transform: rotate(-45deg) scale(1);}
+    50% { box-shadow: 0 0 28px #ff85aa, 0 0 40px #ff4d6d; transform: rotate(-45deg) scale(1.08);}
+    100% { box-shadow: 0 0 10px #ff4d6d; transform: rotate(-45deg) scale(1);}
+}
+
+.heart::before,
+.heart::after {
+    content: "";
+    width: 36px;
+    height: 36px;
+    background: #ff3366;
+    border-radius: 50%;
+    position: absolute;
+    box-shadow: inherit;
+}
+
+.heart::before {
+    top: -18px;
+    left: 0;
+}
+
+.heart::after {
+    left: 18px;
+    top: 0;
+}
+
+/* Vòng trái tim nhỏ thứ hai quay ngược chiều - tạo hiệu ứng vũ trụ */
+.second-orbit {
+    position: absolute;
+    width: 85%;
+    height: 85%;
+    top: 7.5%;
+    left: 7.5%;
+    animation: spinReverse 22s linear infinite;
+}
+
+@keyframes spinReverse {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+}
+
+.small-heart {
+    width: 22px;
+    height: 22px;
+    background: #ff6699;
+    position: absolute;
+    transform: rotate(-45deg);
+    box-shadow: 0 0 12px #ff99cc;
+    top: -11px;
+    left: -11px;
+}
+
+.small-heart::before,
+.small-heart::after {
+    content: "";
+    width: 22px;
+    height: 22px;
+    background: #ff6699;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.small-heart::before {
+    top: -11px;
+    left: 0;
+}
+.small-heart::after {
+    left: 11px;
+    top: 0;
+}
+
+.orbit-small {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    transform-origin: 0px 0px;
+}
+
+/* Tinh vân mờ */
+.nebula {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255,100,150,0.08) 0%, rgba(80,60,150,0) 70%);
+    border-radius: 50%;
+    filter: blur(45px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Hiệu ứng sao lấp lánh xa */
+@keyframes floatTwinkle {
+    0% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
+    100% { transform: translateY(-8px) translateX(5px); opacity: 1; }
+}
+
+/* Responsive */
+@media (max-width: 550px) {
+    .cosmic-center { width: 320px; height: 320px; }
+    .center-text { font-size: 44px; padding: 8px 20px; letter-spacing: 3px; }
+    .heart { width: 28px; height: 28px; top: -14px; left: -14px; }
+    .heart::before, .heart::after { width: 28px; height: 28px; }
+    .heart::before { top: -14px; }
+    .heart::after { left: 14px; }
+    .small-heart { width: 18px; height: 18px; top: -9px; left: -9px; }
+    .small-heart::before, .small-heart::after { width: 18px; height: 18px; }
+    .small-heart::before { top: -9px; }
+    .small-heart::after { left: 9px; }
+    .orbit-item { transform-origin: 0px 0px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nền vũ trụ sao -->
+<div class="stars-bg" id="starsContainer"></div>
+<div id="shootingStarContainer"></div>
+
+<div class="nebula" style="top: 20%; left: -10%;"></div>
+<div class="nebula" style="bottom: 0%; right: -5%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(180,100,200,0.1) 0%, rgba(0,0,0,0) 70%);"></div>
+
+<div class="cosmic-center">
+    <div class="glow-ring"></div>
+    
+    <!-- Vòng trái tim lớn (quay thuận) -->
+    <div class="orbit-ring" id="mainOrbit">
+        <div class="orbit-item" style="transform: rotate(0deg) translateX(175px);"><div class="heart"></div></div>
+        <div class="orbit-item" style="transform: rotate(45deg) translateX(175px);"><div class="heart"></div></div>
+        <div class="orbit-item" style="transform: rotate(90deg) translateX(175px);"><div class="heart"></div></div>
+        <div class="orbit-item" style="transform: rotate(135deg) translateX(175px);"><div class="heart"></div></div>
+        <div class="orbit-item" style="transform: rotate(180deg) translateX(175px);"><div class="heart"></div></div>
+        <div class="orbit-item" style="transform: rotate(225deg) translateX(175px);"><div class="heart"></div></div>
+        <div class="orbit-item" style="transform: rotate(270deg) translateX(175px);"><div class="heart"></div></div>
+        <div class="orbit-item" style="transform: rotate(315deg) translateX(175px);"><div class="heart"></div></div>
+    </div>
+    
+    <!-- Vòng trái tim nhỏ thứ hai (quay ngược) -->
+    <div class="second-orbit" id="smallOrbit">
+        <div class="orbit-small" style="transform: rotate(22.5deg) translateX(130px);"><div class="small-heart"></div></div>
+        <div class="orbit-small" style="transform: rotate(67.5deg) translateX(130px);"><div class="small-heart"></div></div>
+        <div class="orbit-small" style="transform: rotate(112.5deg) translateX(130px);"><div class="small-heart"></div></div>
+        <div class="orbit-small" style="transform: rotate(157.5deg) translateX(130px);"><div class="small-heart"></div></div>
+        <div class="orbit-small" style="transform: rotate(202.5deg) translateX(130px);"><div class="small-heart"></div></div>
+        <div class="orbit-small" style="transform: rotate(247.5deg) translateX(130px);"><div class="small-heart"></div></div>
+        <div class="orbit-small" style="transform: rotate(292.5deg) translateX(130px);"><div class="small-heart"></div></div>
+        <div class="orbit-small" style="transform: rotate(337.5deg) translateX(130px);"><div class="small-heart"></div></div>
+    </div>
+    
+    <div class="center-text">Yến 💫</div>
+</div>
+
+<script>
+    // Tạo nền vũ trụ với 200 ngôi sao
+    function createStarField() {
+        const starsContainer = document.getElementById('starsContainer');
+        if (!starsContainer) return;
+        starsContainer.innerHTML = '';
+        const starCount = 220;
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            const size = Math.random() * 3.5 + 1.2;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 5 + 's';
+            star.style.animationDuration = Math.random() * 3 + 1.8 + 's';
+            star.style.opacity = Math.random() * 0.6 + 0.2;
+            starsContainer.appendChild(star);
+        }
+    }
+    
+    // Tạo sao băng ngẫu nhiên
+    function createShootingStar() {
+        const container = document.getElementById('shootingStarContainer');
+        if (!container) return;
+        const star = document.createElement('div');
+        star.classList.add('shooting-star');
+        const startX = Math.random() * 80 + 10; // %
+        const startY = Math.random() * 40 + 5;
+        star.style.left = startX + '%';
+        star.style.top = startY + '%';
+        star.style.width = Math.random() * 4 + 2 + 'px';
+        star.style.height = star.style.width;
+        star.style.animationDuration = Math.random() * 1.5 + 1.2 + 's';
+        star.style.animationDelay = '0s';
+        container.appendChild(star);
+        setTimeout(() => { if(star && star.remove) star.remove(); }, 2500);
+    }
+    
+    // Tinh chỉnh bán kính quỹ đạo cho responsive
+    function adjustOrbitRadius() {
+        const container = document.querySelector('.cosmic-center');
+        if (!container) return;
+        const width = container.offsetWidth;
+        let mainRadius = 175;
+        let smallRadius = 130;
+        if (width < 400) {
+            mainRadius = Math.max(125, width * 0.45);
+            smallRadius = Math.max(95, width * 0.34);
+        } else if (width < 500) {
+            mainRadius = 155;
+            smallRadius = 115;
+        }
+        // Cập nhật các orbit-item
+        const mainItems = document.querySelectorAll('#mainOrbit .orbit-item');
+        const angles = [0, 45, 90, 135, 180, 225, 270, 315];
+        mainItems.forEach((item, idx) => {
+            if (idx < angles.length) {
+                item.style.transform = `rotate(${angles[idx]}deg) translateX(${mainRadius}px)`;
+            }
+        });
+        const smallItems = document.querySelectorAll('#smallOrbit .orbit-small');
+        const smallAngles = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5];
+        smallItems.forEach((item, idx) => {
+            if (idx < smallAngles.length) {
+                item.style.transform = `rotate(${smallAngles[idx]}deg) translateX(${smallRadius}px)`;
+            }
+        });
+    }
+    
+    // Tạo hiệu ứng trái tim bay từ dưới lên (tình yêu vũ trụ)
+    function createFloatingHeartUniverse() {
+        const heartSpan = document.createElement('div');
+        heartSpan.innerHTML = '💖';
+        heartSpan.style.position = 'absolute';
+        heartSpan.style.fontSize = Math.random() * 24 + 18 + 'px';
+        heartSpan.style.left = Math.random() * 100 + '%';
+        heartSpan.style.bottom = '-40px';
+        heartSpan.style.opacity = Math.random() * 0.7 + 0.3;
+        heartSpan.style.pointerEvents = 'none';
+        heartSpan.style.zIndex = '100';
+        heartSpan.style.filter = 'drop-shadow(0 0 8px #ff4d8a)';
+        heartSpan.style.animation = `floatUpHeart ${Math.random() * 5 + 5}s linear forwards`;
+        document.body.appendChild(heartSpan);
+        setTimeout(() => heartSpan.remove(), 8000);
+    }
+    
+    // Thêm keyframe cho tim bay
+    const styleFloating = document.createElement('style');
+    styleFloating.textContent = `
+        @keyframes floatUpHeart {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+            100% { transform: translateY(-120vh) rotate(380deg); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(styleFloating);
+    
+    // Khởi tạo hiệu ứng vũ trụ
+    createStarField();
+    adjustOrbitRadius();
+    
+    // Tạo sao băng liên tục
+    setInterval(() => {
+        if (Math.random() > 0.65) {
+            createShootingStar();
+        }
+    }, 2800);
+    
+    // Tạo tim bay nhẹ nhàng
+    setInterval(() => {
+        if (document.visibilityState === 'visible') {
+            createFloatingHeartUniverse();
+        }
+    }, 2000);
+    
+    // Thêm một vài tim bay ban đầu
+    for (let i = 0; i < 6; i++) {
+        setTimeout(createFloatingHeartUniverse, i * 500);
+    }
+    
+    // Theo dõi resize để quỹ đạo luôn đẹp
+    window.addEventListener('resize', () => {
+        setTimeout(adjustOrbitRadius, 60);
+    });
+    
+    // Tạo hiệu ứng tinh vân chạy nhẹ (di chuyển nền mờ)
+    let mouseX = 0, mouseY = 0;
+    document.addEventListener('mousemove', (e) => {
+        const nebulas = document.querySelectorAll('.nebula');
+        const x = (e.clientX / window.innerWidth) * 20 - 10;
+        const y = (e.clientY / window.innerHeight) * 20 - 10;
+        nebulas.forEach((neb, idx) => {
+            if (idx === 0) neb.style.transform = `translate(${x * 0.3}px, ${y * 0.2}px)`;
+            else neb.style.transform = `translate(${-x * 0.2}px, ${-y * 0.1}px)`;
+        });
+    });
+    
+    // Lấp lánh thêm cho các tim (hiệu ứng glow động)
+    const hearts = document.querySelectorAll('.heart, .small-heart');
+    setInterval(() => {
+        hearts.forEach(heart => {
+            const randomGlow = Math.random() * 0.6 + 0.4;
+            heart.style.boxShadow = `0 0 ${12 + randomGlow * 15}px #ff6699, 0 0 ${20 + randomGlow * 12}px #ff3366`;
+        });
+    }, 800);
+</script>
+
+<!-- Thêm chút tương tác: khi click vào vũ trụ sẽ tạo thêm tim lấp lánh -->
+<script>
+    document.body.addEventListener('click', (e) => {
+        const rippleHeart = document.createElement('div');
+        rippleHeart.innerHTML = '❤️';
+        rippleHeart.style.position = 'absolute';
+        rippleHeart.style.left = e.clientX + 'px';
+        rippleHeart.style.top = e.clientY + 'px';
+        rippleHeart.style.fontSize = '30px';
+        rippleHeart.style.pointerEvents = 'none';
+        rippleHeart.style.zIndex = '9999';
+        rippleHeart.style.transform = 'translate(-50%, -50%) scale(0)';
+        rippleHeart.style.opacity = '1';
+        rippleHeart.style.transition = 'all 0.6s cubic-bezier(0.2, 1, 0.3, 1)';
+        rippleHeart.style.filter = 'drop-shadow(0 0 12px #ff3388)';
+        document.body.appendChild(rippleHeart);
+        
+        setTimeout(() => {
+            rippleHeart.style.transform = 'translate(-50%, -50%) scale(2.5)';
+            rippleHeart.style.opacity = '0';
+        }, 10);
+        setTimeout(() => rippleHeart.remove(), 700);
+        
+        // Tạo thêm vài ngôi sao lân cận ảo
+        for(let i=0;i<3;i++) {
+            const spark = document.createElement('div');
+            spark.style.position = 'absolute';
+            spark.style.left = e.clientX + (Math.random() - 0.5) * 60 + 'px';
+            spark.style.top = e.clientY + (Math.random() - 0.5) * 60 + 'px';
+            spark.style.width = '4px';
+            spark.style.height = '4px';
+            spark.style.background = '#ffc0cb';
+            spark.style.borderRadius = '50%';
+            spark.style.boxShadow = '0 0 12px gold';
+            spark.style.pointerEvents = 'none';
+            spark.style.zIndex = '9998';
+            document.body.appendChild(spark);
+            setTimeout(() => spark.remove(), 400);
+        }
+    });
+</script>
+</body>
+</html>
